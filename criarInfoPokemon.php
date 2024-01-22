@@ -2,7 +2,7 @@
 
 function criarInfoPokemon(string $urlApi)
 {
-    $new=15;
+    $new=150;
     $ch = curl_init("$urlApi?limit=$new");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -14,5 +14,4 @@ function criarInfoPokemon(string $urlApi)
         fwrite($saveAPI, "$postar->name");
         fwrite($saveAPI, "\n$postar->url\n");
     }
-    $new=15;
 }

@@ -1,0 +1,4 @@
+<?php
+
+$RegistroCompleto = false;
+$infoPokemonJSON = [];
