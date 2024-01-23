@@ -11,7 +11,6 @@ function criarInfoPokemon(string $urlApi)
     $saveAPI = fopen("InfoPokemon.txt", "w");
         
     foreach($pokemon->results as $postar) {
-        fwrite($saveAPI, "$postar->name");
-        fwrite($saveAPI, "\n$postar->url\n");
+        fwrite($saveAPI, "$postar->name\n");
     }
 }

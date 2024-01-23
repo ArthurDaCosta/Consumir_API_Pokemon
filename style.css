@@ -139,7 +139,7 @@ a:hover {
 }
 /* pagination hover effect on active*/
     
-a:nth-child(5) {
+a.active {
     background-color: green;
     color: white;
 }

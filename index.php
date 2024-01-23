@@ -3,9 +3,6 @@
 require_once __DIR__ ."/variables.php";
 require_once __DIR__ ."/criarInfoPokemon.php";
 require_once __DIR__ ."/criarJSONPokemon.php";
-require_once __DIR__ ."/pesquisarPokemon.php";
-require_once __DIR__ ."/getStatsPokemon.php";
-require_once __DIR__ ."/showStatsPokemon.php";
 
 do{
     if(!file_exists("InfoPokemon.txt")){
@@ -18,18 +15,18 @@ do{
 
 $totalPaginas = count($infoPokemonJSON);
 
-// pesquisarPokemon();
-
 
 if(isset($_GET['page'])){
     $page = filter_input(INPUT_GET, "page", FILTER_VALIDATE_INT);
 }
 
-if(!$page) {
+if(!$page||$page<0||$page>$totalPaginas-1){
     $page = 0;
 }
 
 
+
+$mostrarPokemonsJSON = json_encode(["Pokemons" => $infoPokemonJSON[$page] ], JSON_PRETTY_PRINT);
 
 ?>
 
@@ -51,7 +48,7 @@ if(!$page) {
         <h1>Lista de Pokemons</h1>
     </div>
     <div class="form">
-        <form action="pesquisarPokemon.php" method="POST" enctype="multiplart/form-data">
+        <form action="pesquisarPokemon.php?" method="POST" enctype="multiplart/form-data">
             <input type="hidden" name="insert" value="insert">
             <label for="pesquisar_pokemon">Procure um Pokemon:</label>
             <input type="text" name="pesquisar_pokemon" placeholder="Nome de Pokemon">
@@ -69,13 +66,7 @@ if(!$page) {
     <div class="list-pokemons">
         <?php
             echo "<ul>";
-
-            for( $i = 0; $i < 15; $i++ ) {
-                echo "<li>
-                    <dt>Nome do Pokemon: " . ucfirst($infoPokemonJSON[$page][$i][0]) . " </dt>
-                    <dt>URL: " . $infoPokemonJSON[$page][$i][1] . "</dt>
-                 </li>";
-            }
+            echo "<pre>" . $mostrarPokemonsJSON . "</pre>";
             echo "<ul>";
         ?>
         
@@ -86,11 +77,17 @@ if(!$page) {
                 echo "<a href='?page=" . $page-1 . "'><< Previous</a>";
             }
             foreach ($infoPokemonJSON as $key => $value) {
-                echo "<a href='?page=$key'>" . $key+1 . "</a>";
+                if($key==$page){
+                    $verifyActive= "active";
+                } else{
+                    $verifyActive= "noactive";
+                }
+                echo "<a href='?page=$key' class='$verifyActive'>" . $key+1 . "</a>";
             }
-            if($page<$totalPaginas){
+            if($page<$totalPaginas-1){
                 echo "<a href='?page=" . $page+1 . "'>Next >></a>";
             }     
+
         ?>
     </div>
     <div class="footer">

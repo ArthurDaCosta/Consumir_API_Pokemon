@@ -1,10 +1,12 @@
 <?php
-
-function showStatsPokemon(string $pesquisa) 
+function showStatsPokemon(string $pesquisa): array
 {
-    $saveAPIJSON = file("./Pokemons/$pesquisa.txt", FILE_IGNORE_NEW_LINES);
-    $saveAPIJSON = array_chunk($saveAPIJSON, 3);
-    $saveAPIJSON = json_encode(["Status" => $saveAPIJSON], JSON_PRETTY_PRINT);
+    $InfoPoke = file("./Pokemons/$pesquisa.txt", FILE_IGNORE_NEW_LINES);
+    $InfoPoke = array_chunk($InfoPoke, 2);
+    $InfoPoke = array_map(function($InfoPoke){
+        return [$InfoPoke[0]=> $InfoPoke[1]];
+    }, $InfoPoke);
 
-    print($saveAPIJSON);
+    return $InfoPoke;
 }
+
