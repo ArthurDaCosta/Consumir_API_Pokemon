@@ -24,8 +24,6 @@ if(!$page||$page<0||$page>$totalPaginas-1){
     $page = 0;
 }
 
-
-
 $mostrarPokemonsJSON = json_encode(["Pokemons" => $infoPokemonJSON[$page] ], JSON_PRETTY_PRINT);
 
 ?>
@@ -48,11 +46,11 @@ $mostrarPokemonsJSON = json_encode(["Pokemons" => $infoPokemonJSON[$page] ], JSO
         <h1>Lista de Pokemons</h1>
     </div>
     <div class="form">
-        <form action="pesquisarPokemon.php?" method="POST" enctype="multiplart/form-data">
+        <form action="pesquisarPokemon.php" method="GET" enctype="multiplart/form-data">
             <input type="hidden" name="insert" value="insert">
-            <label for="pesquisar_pokemon">Procure um Pokemon:</label>
-            <input type="text" name="pesquisar_pokemon" placeholder="Nome de Pokemon">
-            <button type="submit">Procurar</button>
+            <label for="pokemon">Procure um Pokemon:</label>
+            <input type="text" name="pokemon" placeholder="Nome do Pokemon">
+            <button type="submit">Search</button>
         </form>
         <?php
             if ( isset( $_SESSION['message'])) {
@@ -74,7 +72,9 @@ $mostrarPokemonsJSON = json_encode(["Pokemons" => $infoPokemonJSON[$page] ], JSO
     <div class="pagination_section">
         <?php
             if($page>0){
-                echo "<a href='?page=" . $page-1 . "'><< Previous</a>";
+                echo "<nobr><a href='?page=" . $page-1 . "'> << Previous </a>";
+            } else {
+                echo "<nobr><a style='visibility: hidden'> << Previous </a>";
             }
             foreach ($infoPokemonJSON as $key => $value) {
                 if($key==$page){
@@ -85,8 +85,10 @@ $mostrarPokemonsJSON = json_encode(["Pokemons" => $infoPokemonJSON[$page] ], JSO
                 echo "<a href='?page=$key' class='$verifyActive'>" . $key+1 . "</a>";
             }
             if($page<$totalPaginas-1){
-                echo "<a href='?page=" . $page+1 . "'>Next >></a>";
-            }     
+                echo "<a href='?page=" . $page+1 . "'>Next >></a></nobr>";
+            }  else {
+                echo "<a style='visibility: hidden';>Next >></a></nobr>";
+            }   
 
         ?>
     </div>

@@ -3,9 +3,9 @@
 require_once __DIR__ ."/getStatsPokemon.php";
 require_once __DIR__ ."/showStatsPokemon.php";
 
-if(isset($_POST['pesquisar_pokemon'])) {
+if(isset($_GET['pokemon'])) {
     $InfoTXT = file_get_contents("InfoPokemon.txt");
-    $pesquisa = strtolower($_POST['pesquisar_pokemon']);
+    $pesquisa = trim(strtolower($_GET['pokemon']));
 
     $listaPokemons = file("InfoPokemon.txt", FILE_IGNORE_NEW_LINES);
     $listaPokemons = array_chunk($listaPokemons, 15);
@@ -25,15 +25,11 @@ if(isset($_POST['pesquisar_pokemon'])) {
             $InfoPokeJSON = showStatsPokemon($pesquisa);
         }
     } else {
-        echo "Este Pokemon não Existe";
+        $InfoPokeJSON = " Este Pokemon não Existe!";
     }
-
-    unset($_POST['pesquisar_pokemon']);
 }
 
-$TESTE = $_GET['teste'];
 
-$InfoPokeJSON = json_encode(["Status" => $InfoPokeJSON], JSON_PRETTY_PRINT);
 
 ?>
 
@@ -56,13 +52,16 @@ $InfoPokeJSON = json_encode(["Status" => $InfoPokeJSON], JSON_PRETTY_PRINT);
     </div>
     <div class="separator">
     </div>
-    <div class="list-info">
+    <div class="pokemon-info">
         <?php
             echo "<ul>";
             echo "<pre>" . $InfoPokeJSON . "</pre>";
             echo "<ul>";
         ?>
         
+    </div>
+    <div class="voltar">
+        <input type="button" value="Voltar" onClick="history.go(-1)"> 
     </div>
     <div class="footer">
         <p>Desenvolvido por Arthur Brixius da Costa</p>

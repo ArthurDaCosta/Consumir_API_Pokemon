@@ -10,7 +10,7 @@ function getStatsPokemon(string $pesquisa, string $pesquisaURL) {
     $pokemon = json_decode(curl_exec($ch));
 
 
-
+    fwrite($InfoPoke, "". $pokemon->forms[0]->name ."\n");
     foreach($pokemon->stats as $postar) {
         fwrite($InfoPoke, "". $postar->stat->name ."\n");
         fwrite($InfoPoke, "$postar->base_stat\n");
