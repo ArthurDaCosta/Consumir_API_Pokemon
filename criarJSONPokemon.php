@@ -9,4 +9,4 @@ function criarJSONPokemon(): array
     fwrite($infoPokemonSaveJSON, json_encode(["Pokemons" => $saveAPIJSON ], JSON_PRETTY_PRINT));
 
     return $saveAPIJSON;
-}
+} 
