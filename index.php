@@ -85,10 +85,10 @@ $mostrarPokemonsJSON = json_encode(["Pokemons" => $arrayPokemon[$page] ], JSON_P
                 } else{
                     $verifyActive= "noactive";
                 }
-                echo "<a href='?page=" . $key+1 . "' class='$verifyActive'>" . $key+1 . "</a>";
+                echo "<a href='?page=" . ($key+1) . "' class='$verifyActive'>" . ($key+1) . "</a>";
             }
             if($page<$totalPaginas-1){
-                echo "<a href='?page=" . $page+2 . "'>Próxima >></a></nobr>";
+                echo "<a href='?page=" . ($page+2) . "'>Próxima >></a></nobr>";
             }  else {
                 echo "<a style='visibility: hidden';>Próxima >></a></nobr>";
             }   
