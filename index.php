@@ -1,30 +1,32 @@
 <?php
 
+session_start();
+
 require_once __DIR__ ."/variables.php";
-require_once __DIR__ ."/criarInfoPokemon.php";
-require_once __DIR__ ."/criarJSONPokemon.php";
+require_once __DIR__ ."/criarTXTPokemon.php";
+require_once __DIR__ ."/criarArrayPokemon.php";
 
 do{
     if(!file_exists("InfoPokemon.txt")){
-        criarInfoPokemon($urlApi);
+        criarTXTPokemon($urlApi);
     } else {
-            $infoPokemonJSON = criarJSONPokemon();
+            $arrayPokemon = criarArrayPokemon();
             $RegistroCompleto=true;
     }
 } while($RegistroCompleto==false);
 
-$totalPaginas = count($infoPokemonJSON);
+$totalPaginas = count($arrayPokemon);
 
 
 if(isset($_GET['page'])){
-    $page = filter_input(INPUT_GET, "page", FILTER_VALIDATE_INT);
+    $page = filter_input(INPUT_GET, "page", FILTER_VALIDATE_INT)-1;
 }
 
 if(!$page||$page<0||$page>$totalPaginas-1){
     $page = 0;
 }
 
-$mostrarPokemonsJSON = json_encode(["Pokemons" => $infoPokemonJSON[$page] ], JSON_PRETTY_PRINT);
+$mostrarPokemonsJSON = json_encode(["Pokemons" => $arrayPokemon[$page] ], JSON_PRETTY_PRINT);
 
 ?>
 
@@ -50,10 +52,10 @@ $mostrarPokemonsJSON = json_encode(["Pokemons" => $infoPokemonJSON[$page] ], JSO
             <input type="hidden" name="insert" value="insert">
             <label for="pokemon">Procure um Pokemon:</label>
             <input type="text" name="pokemon" placeholder="Nome do Pokemon">
-            <button type="submit">Search</button>
+            <button type="submit">Procurar</button>
         </form>
         <?php
-            if ( isset( $_SESSION['message'])) {
+            if (isset( $_SESSION['message'])) {
                 echo "<p style='color: #ef5350';>" . $_SESSION['message'] . "</p>";
                 unset($_SESSION['message']);
             }
@@ -72,22 +74,22 @@ $mostrarPokemonsJSON = json_encode(["Pokemons" => $infoPokemonJSON[$page] ], JSO
     <div class="pagination_section">
         <?php
             if($page>0){
-                echo "<nobr><a href='?page=" . $page-1 . "'> << Previous </a>";
+                echo "<nobr><a href='?page=" . $page . "'> << Anterior </a>";
             } else {
-                echo "<nobr><a style='visibility: hidden'> << Previous </a>";
+                echo "<nobr><a style='visibility: hidden'> << Anterior </a>";
             }
-            foreach ($infoPokemonJSON as $key => $value) {
+            foreach ($arrayPokemon as $key => $value) {
                 if($key==$page){
                     $verifyActive= "active";
                 } else{
                     $verifyActive= "noactive";
                 }
-                echo "<a href='?page=$key' class='$verifyActive'>" . $key+1 . "</a>";
+                echo "<a href='?page=" . $key+1 . "' class='$verifyActive'>" . $key+1 . "</a>";
             }
             if($page<$totalPaginas-1){
-                echo "<a href='?page=" . $page+1 . "'>Next >></a></nobr>";
+                echo "<a href='?page=" . $page+2 . "'>Próxima >></a></nobr>";
             }  else {
-                echo "<a style='visibility: hidden';>Next >></a></nobr>";
+                echo "<a style='visibility: hidden';>Próxima >></a></nobr>";
             }   
 
         ?>

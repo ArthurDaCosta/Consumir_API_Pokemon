@@ -8,7 +8,7 @@ function showStatsPokemon(string $pesquisa): string
     $InfoPoke = array_map(function($InfoPoke){
         return [$InfoPoke[0]=> $InfoPoke[1]];
     }, $InfoPoke);
-    $InfoPokeFinalTemp['Name']=$temp;
+    $InfoPokeFinalTemp['Nome']=$temp;
     $InfoPokeFinalTemp['Status']=$InfoPoke;
     $InfoPoke = json_encode($InfoPokeFinalTemp, JSON_PRETTY_PRINT);
 

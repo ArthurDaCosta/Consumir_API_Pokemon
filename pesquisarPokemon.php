@@ -1,34 +1,33 @@
 <?php
 
+session_start();
+
 require_once __DIR__ ."/getStatsPokemon.php";
 require_once __DIR__ ."/showStatsPokemon.php";
 
 if(isset($_GET['pokemon'])) {
-    $InfoTXT = file_get_contents("InfoPokemon.txt");
-    $pesquisa = trim(strtolower($_GET['pokemon']));
+    if(trim($_GET['pokemon'])!='') {
 
-    $listaPokemons = file("InfoPokemon.txt", FILE_IGNORE_NEW_LINES);
-    $listaPokemons = array_chunk($listaPokemons, 15);
-    for($x=0; $x<count($listaPokemons); $x++) {
-        for($y=0; $y<count($listaPokemons[0]); $y++) {
-            if($listaPokemons[$x][$y]==$pesquisa){
-                $pesquisaURL = "https://pokeapi.co/api/v2/pokemon/" . $listaPokemons[$x][$y] . "";
-            }
+        $listaPokemons = file("InfoPokemon.txt", FILE_IGNORE_NEW_LINES);
+        $pesquisa = trim(strtolower($_GET['pokemon']));
+        
+        if(in_array(trim(strtolower($_GET['pokemon'])), $listaPokemons)) {
+            $pesquisaURL = "https://pokeapi.co/api/v2/pokemon/" . $pesquisa . "";
+            if(!file_exists("./Pokemons/$pesquisa.txt")){
+                getStatsPokemon($pesquisa, $pesquisaURL);
+                $InfoPokeJSON = showStatsPokemon($pesquisa);
+            } else { 
+                $InfoPokeJSON = showStatsPokemon($pesquisa);
+            } 
+        } else {
+            $_SESSION['message'] = "Este Pokemon não existe!";
+            header("Location:index.php");
         }
-    }
-
-    if(str_contains($InfoTXT, "$pesquisa\n")) {
-        if(!file_exists("./Pokemons/$pesquisa.txt")){
-            getStatsPokemon($pesquisa, $pesquisaURL);
-            $InfoPokeJSON = showStatsPokemon($pesquisa);
-        } else { 
-            $InfoPokeJSON = showStatsPokemon($pesquisa);
-        }
-    } else {
-        $InfoPokeJSON = " Este Pokemon não Existe!";
-    }
-}
-
+    } else{
+        $_SESSION['message'] = "O campo não pode ser vazio.";
+        header("Location:index.php");
+    }    
+} 
 
 
 ?>
@@ -47,6 +46,12 @@ if(isset($_GET['pokemon'])) {
 <body>
 
 <div class="container">
+    <?php
+    if(isset($_SESSION['message'])){
+        echo "window.history.go(-1)";
+    }
+        
+    ?>
     <div class="header">
         <h1>Status de <?=ucfirst($pesquisa)?></h1>
     </div>
