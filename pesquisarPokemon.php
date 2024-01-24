@@ -11,7 +11,7 @@ if(isset($_GET['pokemon'])) {
         $listaPokemons = file("InfoPokemon.txt", FILE_IGNORE_NEW_LINES);
         $pesquisa = trim(strtolower($_GET['pokemon']));
         
-        if(in_array(trim(strtolower($_GET['pokemon'])), $listaPokemons)) {
+        if(in_array($pesquisa, $listaPokemons)) {
             $pesquisaURL = "https://pokeapi.co/api/v2/pokemon/" . $pesquisa . "";
             if(!file_exists("./Pokemons/$pesquisa.txt")){
                 getStatsPokemon($pesquisa, $pesquisaURL);
