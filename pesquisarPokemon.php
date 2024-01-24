@@ -21,11 +21,11 @@ if(isset($_GET['pokemon'])) {
             } 
         } else {
             $_SESSION['message'] = "Este Pokemon não existe!";
-            header("Location:index.php");
+            header("Location:index.php?page=". $_SESSION['page2']. "");
         }
     } else{
         $_SESSION['message'] = "O campo não pode ser vazio.";
-        header("Location:index.php");
+        header("Location:index.php?page=". $_SESSION['page2']. "");
     }    
 } 
 
@@ -46,12 +46,6 @@ if(isset($_GET['pokemon'])) {
 <body>
 
 <div class="container">
-    <?php
-    if(isset($_SESSION['message'])){
-        echo "window.history.go(-1)";
-    }
-        
-    ?>
     <div class="header">
         <h1>Status de <?=ucfirst($pesquisa)?></h1>
     </div>

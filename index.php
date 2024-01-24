@@ -17,13 +17,14 @@ do{
 
 $totalPaginas = count($arrayPokemon);
 
-
 if(isset($_GET['page'])){
     $page = filter_input(INPUT_GET, "page", FILTER_VALIDATE_INT)-1;
+    $_SESSION['page2'] = $page+1;
 }
 
 if(!$page||$page<0||$page>$totalPaginas-1){
     $page = 0;
+    $_SESSION['page2'] = $page;
 }
 
 $mostrarPokemonsJSON = json_encode(["Pokemons" => $arrayPokemon[$page] ], JSON_PRETTY_PRINT);
