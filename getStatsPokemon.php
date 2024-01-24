@@ -8,6 +8,7 @@ function getStatsPokemon(string $pesquisa, string $pesquisaURL) {
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     $pokemon = json_decode(curl_exec($ch));
+    curl_close($ch);
 
 
     fwrite($InfoPoke, "". $pokemon->forms[0]->name ."\n");
@@ -15,4 +16,6 @@ function getStatsPokemon(string $pesquisa, string $pesquisaURL) {
         fwrite($InfoPoke, "". $postar->stat->name ."\n");
         fwrite($InfoPoke, "$postar->base_stat\n");
     }
+
+    fclose($InfoPoke);
 }

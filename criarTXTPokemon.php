@@ -7,10 +7,13 @@ function criarTXTPokemon(string $urlApi)
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     $pokemon = json_decode(curl_exec($ch));
+    curl_close($ch);
         
     $saveAPI = fopen("InfoPokemon.txt", "w");
         
     foreach($pokemon->results as $postar) {
         fwrite($saveAPI, "$postar->name\n");
     }
+
+    fclose($saveAPI);
 }

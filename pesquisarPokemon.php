@@ -15,10 +15,8 @@ if(isset($_GET['pokemon'])) {
             $pesquisaURL = "https://pokeapi.co/api/v2/pokemon/" . $pesquisa . "";
             if(!file_exists("./Pokemons/$pesquisa.txt")){
                 getStatsPokemon($pesquisa, $pesquisaURL);
-                $InfoPokeJSON = showStatsPokemon($pesquisa);
-            } else { 
-                $InfoPokeJSON = showStatsPokemon($pesquisa);
-            } 
+            }
+            $InfoPokeJSON = showStatsPokemon($pesquisa);
         } else {
             $_SESSION['message'] = "Este Pokemon não existe!";
             header("Location:index.php?page=". $_SESSION['page2']. "");
